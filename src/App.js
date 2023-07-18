@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ReactPaginate from 'react-paginate';
 
 const API_URL = 'https://emojihub.yurace.pro/api/all';
 
@@ -7,9 +8,8 @@ const App = () => {
   const [filteredEmojis, setFilteredEmojis] = useState([]);
   const [categoryFilter, setCategoryFilter] = useState('');
   const [filteredCategories, setFilteredCategories] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
   const [emojisPerPage] = useState(10);
-  const [currentEmojis, setCurrentEmojis] = useState([]);
 
   useEffect(() => {
     fetchEmojis();
@@ -32,21 +32,10 @@ const App = () => {
     }
   };
 
-  useEffect(() => {
-    const indexOfLastEmoji = currentPage * emojisPerPage;
-    const indexOfFirstEmoji = indexOfLastEmoji - emojisPerPage;
-    const currentEmojisSlice = filteredEmojis.slice(
-      indexOfFirstEmoji,
-      indexOfLastEmoji
-    );
-
-    setCurrentEmojis(currentEmojisSlice);
-  }, [filteredEmojis, currentPage, emojisPerPage]);
-
   const handleCategoryFilterChange = (event) => {
     const category = event.target.value;
     setCategoryFilter(category);
-    setCurrentPage(1);
+    setCurrentPage(0);
     filterEmojis(category);
   };
 
@@ -61,7 +50,12 @@ const App = () => {
     }
   };
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const handlePageChange = (selected) => {
+    setCurrentPage(selected.selected);
+  };
+
+  const offset = currentPage * emojisPerPage;
+  const currentEmojis = filteredEmojis.slice(offset, offset + emojisPerPage);
 
   return (
     <div className="App">
@@ -98,12 +92,18 @@ const App = () => {
         ))}
       </div>
       <div className="pagination">
-        {currentPage > 1 && (
-          <button onClick={() => paginate(currentPage - 1)}>Prev</button>
-        )}
-        {currentPage < Math.ceil(filteredEmojis.length / emojisPerPage) && (
-          <button onClick={() => paginate(currentPage + 1)}>Next</button>
-        )}
+        <ReactPaginate
+          previousLabel={'Prev'}
+          nextLabel={'Next'}
+          breakLabel={'...'}
+          breakClassName={'break-me'}
+          pageCount={Math.ceil(filteredEmojis.length / emojisPerPage)}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageChange}
+          containerClassName={'pagination-container'}
+          activeClassName={'active'}
+        />
       </div>
     </div>
   );

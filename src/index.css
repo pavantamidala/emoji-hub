@@ -70,3 +70,33 @@ h1 {
   color: #888;
   font-style: italic;
 }
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+}
+
+.pagination-container li {
+  display: inline-block;
+  margin: 0 5px;
+}
+
+.pagination-container a {
+  color: #333;
+  padding: 6px 12px;
+  text-decoration: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.pagination-container a:hover {
+  background-color: #eee;
+}
+
+.pagination-container .active a {
+  background-color: #007bff;
+  color: #fff;
+  border-color: #007bff;
+}
