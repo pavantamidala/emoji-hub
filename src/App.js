@@ -36,6 +36,7 @@ const App = () => {
     }
   };
 
+  
   const handleCategoryFilterChange = (event) => {
     const category = event.target.value;
     setCategoryFilter(category);
