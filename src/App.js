@@ -44,7 +44,7 @@ const App = () => {
   };
 
   const filterEmojis = (category) => {
-    if (category === "") {
+    if (category === "" || category ==='All') {
       setFilteredEmojis(emojis);
     } else {
       const filtered = emojis.filter(
@@ -65,7 +65,7 @@ const App = () => {
     <div className="App">
       <h1>Emoji Hub</h1>
       <div className="filter">
-        <FormControl sx={{ minWidth: 180 }}>
+        <FormControl sx={{ minWidth: 120 }}>
           <InputLabel htmlFor="categoryFilter">Filter by category</InputLabel>
           <Select
             id="categoryFilter"
@@ -73,7 +73,7 @@ const App = () => {
             onChange={handleCategoryFilterChange}
             label="Filter by category"
           >
-            <MenuItem value="">All</MenuItem>
+            <MenuItem value="All">All</MenuItem>
             {filteredCategories.map((category) => (
               <MenuItem key={category} value={category}>
                 {category}
