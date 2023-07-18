@@ -64,13 +64,17 @@ const App = () => {
         </select>
       </div>
       <div className="emoji-list">
-        {filteredEmojis.map((emoji,index) => (
+        {filteredEmojis.map((emoji, index) => (
           <div key={index} className="emoji-card">
             <div className="emoji">{emoji.htmlCode}</div>
-            <div className="details">
-              <p>Name: {emoji.name}</p>
-              <p>Category: {emoji.category}</p>
-              <p>Group: {emoji.group}</p>
+            <p
+              className="emoji-large"
+              dangerouslySetInnerHTML={{ __html: emoji.htmlCode }}
+            ></p>
+            <div className="emoji-details">
+              <p className="emoji-name">{emoji.name}</p>
+              <p className="emoji-category">{emoji.category}</p>
+              <p className="emoji-group">{emoji.group}</p>
             </div>
           </div>
         ))}
