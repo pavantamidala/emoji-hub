@@ -12,7 +12,7 @@ const App = () => {
   const [filteredEmojis, setFilteredEmojis] = useState([]);
   const [categoryFilter, setCategoryFilter] = useState("All");
   const [filteredCategories, setFilteredCategories] = useState([]);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(2); // Set initial currentPage to 1
   const [emojisPerPage] = useState(10);
 
   useEffect(() => {
@@ -39,12 +39,12 @@ const App = () => {
   const handleCategoryFilterChange = (event) => {
     const category = event.target.value;
     setCategoryFilter(category);
-    setCurrentPage(0);
+    setCurrentPage(1); // Reset currentPage to 1
     filterEmojis(category);
   };
 
   const filterEmojis = (category) => {
-    if (category === "" || category ==='All') {
+    if (category === "" || category === "All") {
       setFilteredEmojis(emojis);
     } else {
       const filtered = emojis.filter(
@@ -55,11 +55,14 @@ const App = () => {
   };
 
   const handlePageChange = (selected) => {
-    setCurrentPage(selected.selected);
+    setCurrentPage(selected.selected + 1); // Subtract 1 from selected index
   };
 
-  const offset = currentPage * emojisPerPage;
-  const currentEmojis = filteredEmojis.slice(offset, offset + emojisPerPage);
+  const offset = (currentPage - 1) * emojisPerPage; // Adjust offset calculation
+  const currentEmojis = filteredEmojis.slice(
+    offset,
+    offset + emojisPerPage
+  );
 
   return (
     <div className="App">
@@ -125,6 +128,7 @@ const App = () => {
             onPageChange={handlePageChange}
             containerClassName={"pagination-container"}
             activeClassName={"active"}
+            initialPage={currentPage - 1} // Set initial page index
           />
         )}
       </div>
