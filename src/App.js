@@ -10,7 +10,7 @@ const API_URL = "https://emojihub.yurace.pro/api/all";
 const App = () => {
   const [emojis, setEmojis] = useState([]);
   const [filteredEmojis, setFilteredEmojis] = useState([]);
-  const [categoryFilter, setCategoryFilter] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("All");
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [emojisPerPage] = useState(10);
@@ -73,7 +73,7 @@ const App = () => {
             onChange={handleCategoryFilterChange}
             label="Filter by category"
           >
-            <MenuItem value="All">All</MenuItem>
+            <MenuItem value="All">Select All</MenuItem>
             {filteredCategories.map((category) => (
               <MenuItem key={category} value={category}>
                 {category}
