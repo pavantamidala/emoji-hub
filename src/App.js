@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import ReactPaginate from "react-paginate";
 import { Card, CardContent } from "@mui/material";
 import { Grid } from "@mui/material";
+import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 
 import Typography from "@mui/material/Typography";
 const API_URL = "https://emojihub.yurace.pro/api/all";
@@ -64,19 +65,22 @@ const App = () => {
     <div className="App">
       <h1>Emoji Hub</h1>
       <div className="filter">
-        <label htmlFor="categoryFilter">Filter by category:</label>
-        <select
-          id="categoryFilter"
-          value={categoryFilter}
-          onChange={handleCategoryFilterChange}
-        >
-          <option value="">All</option>
-          {filteredCategories.map((category) => (
-            <option key={category} value={category}>
-              {category}
-            </option>
-          ))}
-        </select>
+        <FormControl sx={{ minWidth: 180 }}>
+          <InputLabel htmlFor="categoryFilter">Filter by category</InputLabel>
+          <Select
+            id="categoryFilter"
+            value={categoryFilter}
+            onChange={handleCategoryFilterChange}
+            label="Filter by category"
+          >
+            <MenuItem value="">All</MenuItem>
+            {filteredCategories.map((category) => (
+              <MenuItem key={category} value={category}>
+                {category}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
       </div>
       <div className="emoji-list">
         <Grid container spacing={2}>
