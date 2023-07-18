@@ -9,6 +9,7 @@ const App = () => {
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [emojisPerPage] = useState(10);
+  const [currentEmojis, setCurrentEmojis] = useState([]);
 
   useEffect(() => {
     fetchEmojis();
@@ -31,6 +32,17 @@ const App = () => {
     }
   };
 
+  useEffect(() => {
+    const indexOfLastEmoji = currentPage * emojisPerPage;
+    const indexOfFirstEmoji = indexOfLastEmoji - emojisPerPage;
+    const currentEmojisSlice = filteredEmojis.slice(
+      indexOfFirstEmoji,
+      indexOfLastEmoji
+    );
+
+    setCurrentEmojis(currentEmojisSlice);
+  }, [filteredEmojis, currentPage, emojisPerPage]);
+
   const handleCategoryFilterChange = (event) => {
     const category = event.target.value;
     setCategoryFilter(category);
@@ -48,13 +60,6 @@ const App = () => {
       setFilteredEmojis(filtered);
     }
   };
-
-  const indexOfLastEmoji = currentPage * emojisPerPage;
-  const indexOfFirstEmoji = indexOfLastEmoji - emojisPerPage;
-  const currentEmojis = filteredEmojis.slice(
-    indexOfFirstEmoji,
-    indexOfLastEmoji
-  );
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -77,7 +82,7 @@ const App = () => {
         </select>
       </div>
       <div className="emoji-list">
-        {currentEmojis.length > 0 ?currentEmojis.map((emoji, index) => (
+        {currentEmojis.map((emoji, index) => (
           <div key={index} className="emoji-card">
             <div className="emoji">{emoji.htmlCode}</div>
             <p
@@ -90,9 +95,7 @@ const App = () => {
               <p className="emoji-group">{emoji.group}</p>
             </div>
           </div>
-        )):(
-          <p>No emojis found.</p>
-        )}
+        ))}
       </div>
       <div className="pagination">
         {currentPage > 1 && (
