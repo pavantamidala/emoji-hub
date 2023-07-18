@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import ReactPaginate from 'react-paginate';
+import React, { useState, useEffect } from "react";
+import ReactPaginate from "react-paginate";
+import { Card, CardContent } from "@mui/material";
+import { Grid } from "@mui/material";
 
-const API_URL = 'https://emojihub.yurace.pro/api/all';
+import Typography from "@mui/material/Typography";
+const API_URL = "https://emojihub.yurace.pro/api/all";
 
 const App = () => {
   const [emojis, setEmojis] = useState([]);
   const [filteredEmojis, setFilteredEmojis] = useState([]);
-  const [categoryFilter, setCategoryFilter] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState("");
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [emojisPerPage] = useState(10);
@@ -28,7 +31,7 @@ const App = () => {
 
       filterEmojis(categoryFilter);
     } catch (error) {
-      console.error('Error fetching emojis:', error);
+      console.error("Error fetching emojis:", error);
     }
   };
 
@@ -40,7 +43,7 @@ const App = () => {
   };
 
   const filterEmojis = (category) => {
-    if (category === '') {
+    if (category === "") {
       setFilteredEmojis(emojis);
     } else {
       const filtered = emojis.filter(
@@ -76,34 +79,48 @@ const App = () => {
         </select>
       </div>
       <div className="emoji-list">
-        {currentEmojis.map((emoji, index) => (
-          <div key={index} className="emoji-card">
-            <div className="emoji">{emoji.htmlCode}</div>
-            <p
-              className="emoji-large"
-              dangerouslySetInnerHTML={{ __html: emoji.htmlCode }}
-            ></p>
-            <div className="emoji-details">
-              <p className="emoji-name">{emoji.name}</p>
-              <p className="emoji-category">{emoji.category}</p>
-              <p className="emoji-group">{emoji.group}</p>
-            </div>
-          </div>
-        ))}
+        <Grid container spacing={2}>
+          {currentEmojis.map((emoji, index) => (
+            <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h5" sx={{ mb: 1 }}>
+                    {emoji.htmlCode}
+                  </Typography>
+                  <Typography
+                    variant="h3"
+                    sx={{ mb: 1 }}
+                    dangerouslySetInnerHTML={{ __html: emoji.htmlCode }}
+                  />
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ fontWeight: "bold", mb: 1 }}
+                  >
+                    {emoji.name}
+                  </Typography>
+                  <Typography variant="subtitle2" sx={{ mb: 1 }}>
+                    {emoji.category}
+                  </Typography>
+                  <Typography variant="subtitle2">{emoji.group}</Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
       </div>
       <div className="pagination">
-      {filteredEmojis.length > emojisPerPage && (
+        {filteredEmojis.length > emojisPerPage && (
           <ReactPaginate
-            previousLabel={'Prev'}
-            nextLabel={'Next'}
-            breakLabel={'...'}
-            breakClassName={'break-me'}
+            previousLabel={"Prev"}
+            nextLabel={"Next"}
+            breakLabel={"..."}
+            breakClassName={"break-me"}
             pageCount={Math.ceil(filteredEmojis.length / emojisPerPage)}
             marginPagesDisplayed={2}
             pageRangeDisplayed={5}
             onPageChange={handlePageChange}
-            containerClassName={'pagination-container'}
-            activeClassName={'active'}
+            containerClassName={"pagination-container"}
+            activeClassName={"active"}
           />
         )}
       </div>
