@@ -92,18 +92,20 @@ const App = () => {
         ))}
       </div>
       <div className="pagination">
-        <ReactPaginate
-          previousLabel={'Prev'}
-          nextLabel={'Next'}
-          breakLabel={'...'}
-          breakClassName={'break-me'}
-          pageCount={Math.ceil(filteredEmojis.length / emojisPerPage)}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={5}
-          onPageChange={handlePageChange}
-          containerClassName={'pagination-container'}
-          activeClassName={'active'}
-        />
+      {filteredEmojis.length > emojisPerPage && (
+          <ReactPaginate
+            previousLabel={'Prev'}
+            nextLabel={'Next'}
+            breakLabel={'...'}
+            breakClassName={'break-me'}
+            pageCount={Math.ceil(filteredEmojis.length / emojisPerPage)}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            onPageChange={handlePageChange}
+            containerClassName={'pagination-container'}
+            activeClassName={'active'}
+          />
+        )}
       </div>
     </div>
   );
